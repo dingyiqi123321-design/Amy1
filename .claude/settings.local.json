@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx playwright install:*)",
+      "Bash(mkdir:*)",
+      "Bash(npm run dev)",
+      "Bash(npm run lint)",
+      "Bash(node:*)",
+      "Bash(curl:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

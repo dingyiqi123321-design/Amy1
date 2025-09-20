@@ -1,0 +1,4 @@
+"C:\Users\dingyiqi\Desktop\ai2"
+setx ANTHROPIC_AUTH_TOKEN "sk-DTZ8nRofbSgYpdbydAkxvj6ah2Q4vZ7ZnR3dt7BlU3GNh4Y7"
+setx ANTHROPIC_BASE_URL "https://api.moonshot.cn/anthropic"
+claude

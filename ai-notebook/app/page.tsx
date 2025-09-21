@@ -14,6 +14,7 @@ import { Note } from "@/types/note";
 import { TodoList as TodoListType } from "@/types/todo";
 import { Project, ProjectTask } from "@/types/project";
 import { ProjectManager } from "@/components/project-manager";
+import { ReportsPage } from "@/components/reports-page";
 import { loadNotesFromLocalStorage, saveNotesToLocalStorage, getApiKey } from "@/lib/storage";
 import { loadTodosFromLocalStorage, saveTodosToLocalStorage, createTodoList } from "@/lib/todo-storage";
 import { loadProjectsFromLocalStorage, saveProjectsToLocalStorage, loadProjectTasksFromLocalStorage, saveProjectTasksToLocalStorage } from "@/lib/project-storage";
@@ -284,22 +285,14 @@ export default function Home() {
             tasks={projectTasks}
             onUpdateProjects={handleUpdateProjects}
             onUpdateTasks={handleUpdateProjectTasks}
+          />
+        ) : (
+          <ReportsPage
             dailyReports={dailyReports}
             weeklyReports={weeklyReports}
             onUpdateDailyReports={setDailyReports}
             onUpdateWeeklyReports={setWeeklyReports}
           />
-        ) : (
-          <div className="p-8">
-            <div className="max-w-4xl mx-auto">
-              <h1 className="text-2xl font-bold mb-6">报告管理</h1>
-              <div className="text-center text-muted-foreground py-8">
-                <BarChart3 className="h-16 w-16 mx-auto mb-4" />
-                <p>请选择一个项目来管理日报和周报</p>
-                <p className="text-sm mt-2">切换到项目模块，选择一个项目后点击&apos;报告&apos;标签</p>
-              </div>
-            </div>
-          </div>
         )
       ) : (
         <div className="flex-1 flex items-center justify-center p-8">

@@ -7,11 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Plus, Folder, BarChart3 } from "lucide-react";
 import { Project } from "@/types/project";
 import { ProjectTask } from "@/types/project";
-import { DailyReport, WeeklyReport } from "@/types/report";
 import { ProjectSidebar } from "@/components/project-sidebar";
 import { ProjectTaskList } from "@/components/project-task-list";
 import { AIProjectSplitter } from "@/components/ai-project-splitter";
-import { ReportManager } from "@/components/report-manager";
 import { generateId } from "@/lib/utils";
 
 interface ProjectManagerProps {
@@ -19,26 +17,17 @@ interface ProjectManagerProps {
   tasks: ProjectTask[];
   onUpdateProjects: (projects: Project[]) => void;
   onUpdateTasks: (tasks: ProjectTask[]) => void;
-  dailyReports?: DailyReport[];
-  weeklyReports?: WeeklyReport[];
-  onUpdateDailyReports?: (reports: DailyReport[]) => void;
-  onUpdateWeeklyReports?: (reports: WeeklyReport[]) => void;
 }
 
-export function ProjectManager({ 
-  projects, 
-  tasks, 
-  onUpdateProjects, 
-  onUpdateTasks,
-  dailyReports = [],
-  weeklyReports = [],
-  onUpdateDailyReports,
-  onUpdateWeeklyReports
+export function ProjectManager({
+  projects,
+  tasks,
+  onUpdateProjects,
+  onUpdateTasks
 }: ProjectManagerProps) {
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(
     projects.length > 0 ? projects[0].id : null
   );
-  const [activeView, setActiveView] = useState<'tasks' | 'reports'>('tasks');
   const [newProjectName, setNewProjectName] = useState<string>("");
 
   const selectedProject = projects.find(p => p.id === selectedProjectId);
@@ -191,40 +180,14 @@ export function ProjectManager({
   return (
     <div className="h-full flex">
       {/* 左侧项目列表 */}
-      <div className="w-64 border-r flex flex-col">
-        <div className="flex-1">
-          <ProjectSidebar
-            projects={projects}
-            selectedProjectId={selectedProjectId}
-            onSelectProject={handleSelectProject}
-            onCreateProject={handleCreateProject}
-            onUpdateProject={handleUpdateProject}
-          />
-        </div>
-        
-        {selectedProject && (
-          <div className="border-t p-4">
-            <div className="flex gap-1">
-              <Button
-                variant={activeView === 'tasks' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setActiveView('tasks')}
-                className="flex-1"
-              >
-                任务
-              </Button>
-              <Button
-                variant={activeView === 'reports' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setActiveView('reports')}
-                className="flex-1"
-              >
-                <BarChart3 className="h-4 w-4 mr-1" />
-                报告
-              </Button>
-            </div>
-          </div>
-        )}
+      <div className="w-64 border-r">
+        <ProjectSidebar
+          projects={projects}
+          selectedProjectId={selectedProjectId}
+          onSelectProject={handleSelectProject}
+          onCreateProject={handleCreateProject}
+          onUpdateProject={handleUpdateProject}
+        />
       </div>
 
       {/* 右侧内容区域 */}
@@ -233,44 +196,23 @@ export function ProjectManager({
         <div className="mb-6">
           <AIProjectSplitter onProjectsCreated={handleAIProjectsCreated} />
         </div>
-        
+
         {selectedProject ? (
-          activeView === 'tasks' ? (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-bold">{selectedProject.name}</h1>
-                <div className="text-sm text-muted-foreground">
-                  {projectTasks.length} 个任务
-                </div>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h1 className="text-2xl font-bold">{selectedProject.name}</h1>
+              <div className="text-sm text-muted-foreground">
+                {projectTasks.length} 个任务
               </div>
-              
-              <ProjectTaskList
-                tasks={projectTasks}
-                onUpdateTask={handleUpdateTask}
-                onCreateTask={handleCreateTask}
-                onDeleteTask={handleDeleteTask}
-              />
             </div>
-          ) : (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-bold">{selectedProject.name} - 报告管理</h1>
-                <div className="text-sm text-muted-foreground">
-                  日报周报管理
-                </div>
-              </div>
-              
-              {selectedProjectId && (
-                <ReportManager
-                  projectId={selectedProjectId}
-                  dailyReports={dailyReports}
-                  weeklyReports={weeklyReports}
-                  onUpdateDailyReports={onUpdateDailyReports || (() => {})}
-                  onUpdateWeeklyReports={onUpdateWeeklyReports || (() => {})}
-                />
-              )}
-            </div>
-          )
+
+            <ProjectTaskList
+              tasks={projectTasks}
+              onUpdateTask={handleUpdateTask}
+              onCreateTask={handleCreateTask}
+              onDeleteTask={handleDeleteTask}
+            />
+          </div>
         ) : (
           <div className="flex items-center justify-center h-full">
             <div className="text-center text-muted-foreground">

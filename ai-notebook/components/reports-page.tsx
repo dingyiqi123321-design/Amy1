@@ -1,10 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { AnimatedButton as Button } from "@/components/ui/animated-button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
 import { FileText, BarChart3, Calendar, TrendingUp } from "lucide-react";
 import { Project } from "@/types/project";
 import { DailyReport, WeeklyReport } from "@/types/report";

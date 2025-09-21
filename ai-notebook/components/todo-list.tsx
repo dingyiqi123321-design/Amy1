@@ -30,7 +30,6 @@ export function TodoList({ todoList, onUpdateTodoList, onCreateTodoList, noteId 
       completed: false,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      noteId,
     };
 
     const updatedList = {

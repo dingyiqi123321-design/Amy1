@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { AnimatedButton as Button } from "@/components/ui/animated-button";
 import { Input } from "@/components/ui/input";
-import { Plus, Folder, BarChart3 } from "lucide-react";
+import { Plus, Folder } from "lucide-react";
 import { Project } from "@/types/project";
 import { ProjectTask } from "@/types/project";
 import { ProjectSidebar } from "@/components/project-sidebar";

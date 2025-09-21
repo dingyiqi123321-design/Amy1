@@ -52,25 +52,20 @@ export const AnimatedButton = React.forwardRef<HTMLButtonElement, AnimatedButton
 
     const iconVariants = {
       hidden: { x: 0, y: 0, opacity: 0, rotate: 0, scale: 0 },
-      visible: (custom: { x: number; y: number }) => ({
-        x: custom.x,
-        y: custom.y,
+      visible: {
+        x: -8,
+        y: -8,
         opacity: 0.6,
         rotate: 360,
         scale: 1,
         transition: {
-          x: { duration: 0.2, ease: "easeOut" },
-          y: { duration: 0.2, ease: "easeOut" },
+          x: { duration: 0.2 },
+          y: { duration: 0.2 },
           opacity: { duration: 0.2 },
           scale: { duration: 0.2 },
-          rotate: {
-            duration: 0.6,
-            type: "spring",
-            stiffness: 100,
-            damping: 10,
-          },
+          rotate: { duration: 0.6 }
         },
-      }),
+      },
     };
 
     return (
@@ -87,7 +82,6 @@ export const AnimatedButton = React.forwardRef<HTMLButtonElement, AnimatedButton
             initial="hidden"
             animate={isHovered ? "visible" : "hidden"}
             variants={iconVariants}
-            custom={{ x: -8, y: -8 }}
             className="pointer-events-none absolute left-[2px] top-[2px] z-10"
           >
             <SettingsFilled className="text-blue-500 dark:text-blue-400" />
@@ -96,7 +90,6 @@ export const AnimatedButton = React.forwardRef<HTMLButtonElement, AnimatedButton
             initial="hidden"
             animate={isHovered ? "visible" : "hidden"}
             variants={iconVariants}
-            custom={{ x: 8, y: 8 }}
             className="pointer-events-none absolute bottom-[2px] right-[2px] z-10"
           >
             <SettingsFilled className="text-blue-500 dark:text-blue-400" />

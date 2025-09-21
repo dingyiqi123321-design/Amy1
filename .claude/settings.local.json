@@ -17,7 +17,12 @@
       "Bash(git push:*)",
       "Bash(gh auth:*)",
       "Bash(ping:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(tasklist:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(wmic:*)",
+      "Bash(cmd:*)"
     ],
     "deny": [],
     "ask": []

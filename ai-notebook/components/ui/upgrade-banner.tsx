@@ -42,23 +42,18 @@ export function UpgradeBanner({
 
   const iconVariants = {
     hidden: { x: 0, y: 0, opacity: 0, rotate: 0 },
-    visible: (custom: { x: number; y: number }) => ({
-      x: custom.x,
-      y: custom.y,
+    visible: {
+      x: -10,
+      y: -10,
       opacity: 1,
       rotate: 360,
       transition: {
-        x: { duration: 0.3, ease: "easeOut" },
-        y: { duration: 0.3, ease: "easeOut" },
+        x: { duration: 0.3 },
+        y: { duration: 0.3 },
         opacity: { duration: 0.3 },
-        rotate: {
-          duration: 1,
-          type: "spring",
-          stiffness: 100,
-          damping: 10,
-        },
-      },
-    }),
+        rotate: { duration: 1 }
+      }
+    }
   };
 
   return (
@@ -74,7 +69,6 @@ export function UpgradeBanner({
             initial="hidden"
             animate={isHovered ? "visible" : "hidden"}
             variants={iconVariants}
-            custom={{ x: -10, y: -10 }}
             className="pointer-events-none absolute left-[4px] top-[2px]"
           >
             <SettingsFilled className="text-[#005FF2] dark:text-[#006EFE]" />
@@ -83,7 +77,6 @@ export function UpgradeBanner({
             initial="hidden"
             animate={isHovered ? "visible" : "hidden"}
             variants={iconVariants}
-            custom={{ x: 10, y: 10 }}
             className="pointer-events-none absolute bottom-[2px] left-[6rem]"
           >
             <SettingsFilled className="text-[#005FF2] dark:text-[#006EFE]" />

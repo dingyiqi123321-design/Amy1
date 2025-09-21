@@ -50,18 +50,18 @@ export function ReportManager({
   const getReportStats = () => {
     const projectDailyReports = getProjectReports(dailyReports);
     const projectWeeklyReports = getProjectReports(weeklyReports);
-    
+
     return {
       dailyCount: projectDailyReports.length,
       weeklyCount: projectWeeklyReports.length,
-      todayReport: projectDailyReports.some(report => 
-        report.date === new Date().toISOString().split('T')[0]
+      todayReport: projectDailyReports.some(report =>
+        'date' in report && report.date === new Date().toISOString().split('T')[0]
       ),
       thisWeekReport: projectWeeklyReports.some(report => {
         const today = new Date();
         const weekStart = new Date(today);
         weekStart.setDate(today.getDate() - today.getDay() + 1);
-        return report.weekStart === weekStart.toISOString().split('T')[0];
+        return 'weekStart' in report && report.weekStart === weekStart.toISOString().split('T')[0];
       })
     };
   };

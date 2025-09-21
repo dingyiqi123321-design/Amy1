@@ -9,7 +9,7 @@ export default defineConfig({
     {
       name: 'navigate_to_notebook',
       description: 'Navigate to the AI Notebook homepage',
-      handler: async ({ page }) => {
+      handler: async ({ page }: { page: any }) => {
         await page.goto('http://localhost:3000');
         return { success: true, message: 'Successfully navigated to AI Notebook' };
       }
@@ -24,7 +24,7 @@ export default defineConfig({
           required: true
         }
       },
-      handler: async ({ page }, { content }) => {
+      handler: async ({ page }: { page: any }, { content }: { content: string }) => {
         await page.getByRole('button', { name: '新建笔记' }).click();
         await page.locator('textarea').fill(content);
         await page.waitForTimeout(3000); // Wait for auto-save
@@ -34,7 +34,7 @@ export default defineConfig({
     {
       name: 'get_all_notes',
       description: 'Get all notes from the notebook',
-      handler: async ({ page }) => {
+      handler: async ({ page }: { page: any }) => {
         const notes = await page.locator('.note-item').allTextContents();
         return { success: true, notes };
       }

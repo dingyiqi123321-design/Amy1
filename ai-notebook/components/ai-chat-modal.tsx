@@ -8,6 +8,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card } from "@/components/ui/card";
 import { Note } from "@/types/note";
 import { TodoList } from "@/types/todo";
+import { Project, ProjectTask } from "@/types/project";
+import { DailyReport, WeeklyReport } from "@/types/report";
 import { callOpenRouter } from "@/lib/ai-service";
 import { MessageCircle, Send } from "lucide-react";
 
@@ -16,6 +18,10 @@ interface AIChatModalProps {
   onOpenChange: (open: boolean) => void;
   notes: Note[];
   todoLists: TodoList[];
+  projects?: Project[];
+  projectTasks?: ProjectTask[];
+  dailyReports?: DailyReport[];
+  weeklyReports?: WeeklyReport[];
 }
 
 interface Message {
@@ -23,7 +29,16 @@ interface Message {
   content: string;
 }
 
-export function AIChatModal({ open, onOpenChange, notes, todoLists }: AIChatModalProps) {
+export function AIChatModal({ 
+  open, 
+  onOpenChange, 
+  notes, 
+  todoLists, 
+  projects = [],
+  projectTasks = [],
+  dailyReports = [],
+  weeklyReports = []
+}: AIChatModalProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -76,12 +91,81 @@ export function AIChatModal({ open, onOpenChange, notes, todoLists }: AIChatModa
         return todoInfo + '---';
       }).join('\n');
 
-      const context = [notesContext, todosContext].filter(Boolean).join('\n\n');
-      const prompt = `基于以下所有笔记内容和待办事项信息回答问题：\n\n${context}\n\n用户问题：${input}`;
+      // 构建项目上下文
+      const projectsContext = projects.length > 0 ? projects.map(project => {
+        const currentProjectTasks = projectTasks.filter(task => task.projectId === project.id);
+        const pendingTasks = currentProjectTasks.filter(task => !task.isCompleted);
+        const completedTasks = currentProjectTasks.filter(task => task.isCompleted);
+        
+        let projectInfo = `项目: ${project.name}\n`;
+        projectInfo += `创建时间: ${project.createdAt}\n`;
+        
+        if (pendingTasks.length > 0) {
+          projectInfo += `进行中任务 (${pendingTasks.length}个):\n`;
+          projectInfo += pendingTasks.map(task => `- ${task.title} [${task.priority}]`).join('\n');
+          projectInfo += '\n';
+        }
+        
+        if (completedTasks.length > 0) {
+          projectInfo += `已完成任务 (${completedTasks.length}个):\n`;
+          projectInfo += completedTasks.map(task => `- ${task.title}`).join('\n');
+          projectInfo += '\n';
+        }
+        
+        return projectInfo + '---';
+      }).join('\n') : '';
+
+      // 构建日报上下文
+      const dailyReportsContext = dailyReports.length > 0 ? dailyReports.map(report => {
+        const project = projects.find(p => p.id === report.projectId);
+        let reportInfo = `日报 (${report.date}) - 项目: ${project?.name || '未知项目'}\n`;
+        
+        if (report.tasks.length > 0) {
+          reportInfo += `今日任务: ${report.tasks.join(', ')}\n`;
+        }
+        if (report.progress) {
+          reportInfo += `进展: ${report.progress}\n`;
+        }
+        if (report.issues) {
+          reportInfo += `问题: ${report.issues}\n`;
+        }
+        if (report.plans.length > 0) {
+          reportInfo += `明日计划: ${report.plans.join(', ')}\n`;
+        }
+        
+        return reportInfo + '---';
+      }).join('\n') : '';
+
+      // 构建周报上下文
+      const weeklyReportsContext = weeklyReports.length > 0 ? weeklyReports.map(report => {
+        const project = projects.find(p => p.id === report.projectId);
+        let reportInfo = `周报 (${report.weekStart} 至 ${report.weekEnd}) - 项目: ${project?.name || '未知项目'}\n`;
+        
+        if (report.summary) {
+          reportInfo += `总结: ${report.summary}\n`;
+        }
+        if (report.achievements.length > 0) {
+          reportInfo += `主要成果: ${report.achievements.join(', ')}\n`;
+        }
+        if (report.challenges.length > 0) {
+          reportInfo += `遇到挑战: ${report.challenges.join(', ')}\n`;
+        }
+        if (report.nextWeekPlans.length > 0) {
+          reportInfo += `下周计划: ${report.nextWeekPlans.join(', ')}\n`;
+        }
+        
+        return reportInfo + '---';
+      }).join('\n') : '';
+
+      const context = [notesContext, todosContext, projectsContext, dailyReportsContext, weeklyReportsContext].filter(Boolean).join('\n\n');
+      const prompt = `基于以下所有信息回答问题：\n\n${context}\n\n用户问题：${input}`;
       
       const response = await callOpenRouter(prompt, 'chat');
       
-      const aiMessage: Message = { role: 'assistant', content: response };
+      const aiMessage: Message = { 
+        role: 'assistant', 
+        content: typeof response === 'string' ? response : String(response) 
+      };
       setMessages(prev => [...prev, aiMessage]);
     } catch (error) {
       const errorMessage: Message = { 

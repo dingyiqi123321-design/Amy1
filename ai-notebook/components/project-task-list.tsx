@@ -257,7 +257,7 @@ export function ProjectTaskList({
         </div>
       </div>
 
-      <div className="space-y-1">
+      <div className="space-y-1 max-h-[400px] overflow-y-auto">
         {rootTasks.length === 0 ? (
           <div className="text-center text-muted-foreground py-8">
             <p>还没有任务</p>

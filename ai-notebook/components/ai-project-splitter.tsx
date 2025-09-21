@@ -108,9 +108,8 @@ ${inputText}`;
         const project: Project = {
           id: projectId,
           name: projectData.name,
-          description: projectData.description || "",
-          createdAt: new Date(),
-          updatedAt: new Date()
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
         };
         projects.push(project);
 
@@ -124,14 +123,13 @@ ${inputText}`;
               projectId: projectId,
               title: taskData.title,
               description: taskData.description || "",
-              completed: false,
+              isCompleted: false,
               priority: taskData.priority || 'medium',
-              dueDate: null,
+              dueDate: "",
               assignee: "",
               parentId: null,
-              order: taskIndex,
-              createdAt: new Date(),
-              updatedAt: new Date()
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString()
             };
             allTasks.push(task);
 
@@ -145,14 +143,13 @@ ${inputText}`;
                   projectId: projectId,
                   title: subtaskData.title,
                   description: subtaskData.description || "",
-                  completed: false,
+                  isCompleted: false,
                   priority: 'medium',
-                  dueDate: null,
+                  dueDate: "",
                   assignee: "",
                   parentId: taskId,
-                  order: subtaskIndex,
-                  createdAt: new Date(),
-                  updatedAt: new Date()
+                  createdAt: new Date().toISOString(),
+                  updatedAt: new Date().toISOString()
                 };
                 allTasks.push(subtask);
               });

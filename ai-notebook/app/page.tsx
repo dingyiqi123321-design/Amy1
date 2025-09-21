@@ -17,9 +17,11 @@ import { ProjectManager } from "@/components/project-manager";
 import { loadNotesFromLocalStorage, saveNotesToLocalStorage, getApiKey } from "@/lib/storage";
 import { loadTodosFromLocalStorage, saveTodosToLocalStorage, createTodoList } from "@/lib/todo-storage";
 import { loadProjectsFromLocalStorage, saveProjectsToLocalStorage, loadProjectTasksFromLocalStorage, saveProjectTasksToLocalStorage } from "@/lib/project-storage";
+import { loadDailyReportsFromLocalStorage, saveDailyReportsToLocalStorage, loadWeeklyReportsFromLocalStorage, saveWeeklyReportsToLocalStorage } from "@/lib/report-storage";
 import { callOpenRouter } from "@/lib/ai-service";
-import { MessageCircle, Settings, FileText, Briefcase } from "lucide-react";
+import { MessageCircle, Settings, FileText, Briefcase, BarChart3 } from "lucide-react";
 import { generateId } from "@/lib/utils";
+import { DailyReport, WeeklyReport } from "@/types/report";
 
 export default function Home() {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -30,18 +32,24 @@ export default function Home() {
   const [showApiKeyDialog, setShowApiKeyDialog] = useState(false);
   const [showChatDialog, setShowChatDialog] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [activeModule, setActiveModule] = useState<'notes' | 'projects'>('notes');
+  const [dailyReports, setDailyReports] = useState<DailyReport[]>([]);
+  const [weeklyReports, setWeeklyReports] = useState<WeeklyReport[]>([]);
+  const [activeModule, setActiveModule] = useState<'notes' | 'projects' | 'reports'>('notes');
 
   useEffect(() => {
     const loadedNotes = loadNotesFromLocalStorage();
     const loadedTodos = loadTodosFromLocalStorage();
     const loadedProjects = loadProjectsFromLocalStorage();
     const loadedProjectTasks = loadProjectTasksFromLocalStorage();
+    const loadedDailyReports = loadDailyReportsFromLocalStorage();
+    const loadedWeeklyReports = loadWeeklyReportsFromLocalStorage();
     
     setNotes(loadedNotes);
     setTodoLists(loadedTodos);
     setProjects(loadedProjects);
     setProjectTasks(loadedProjectTasks);
+    setDailyReports(loadedDailyReports);
+    setWeeklyReports(loadedWeeklyReports);
     
     if (loadedNotes.length > 0) {
       setSelectedId(loadedNotes[0].id);
@@ -143,6 +151,14 @@ export default function Home() {
     setTodoLists(prev => prev.filter(todoList => todoList.id !== id));
   };
 
+  useEffect(() => {
+    saveDailyReportsToLocalStorage(dailyReports);
+  }, [dailyReports]);
+
+  useEffect(() => {
+    saveWeeklyReportsToLocalStorage(weeklyReports);
+  }, [weeklyReports]);
+
   const handleDataRestored = (restoredNotes: Note[], restoredTodos: TodoListType[]) => {
     setNotes(restoredNotes);
     setTodoLists(restoredTodos);
@@ -159,7 +175,7 @@ export default function Home() {
     setProjectTasks(updatedTasks);
   };
 
-  const hasData = notes.length > 0 || todoLists.length > 0 || projects.length > 0;
+  const hasData = notes.length > 0 || todoLists.length > 0 || projects.length > 0 || dailyReports.length > 0 || weeklyReports.length > 0;
 
   return (
     <div className="h-screen flex flex-col">
@@ -185,6 +201,15 @@ export default function Home() {
             >
               <Briefcase className="h-4 w-4" />
               项目
+            </Button>
+            <Button
+              size="sm"
+              variant={activeModule === 'reports' ? 'default' : 'ghost'}
+              onClick={() => setActiveModule('reports')}
+              className="gap-2"
+            >
+              <BarChart3 className="h-4 w-4" />
+              报告
             </Button>
           </div>
 
@@ -253,13 +278,28 @@ export default function Home() {
               <PomodoroTimer className="h-full" />
             </ResizablePanel>
           </ResizablePanelGroup>
-        ) : (
+        ) : activeModule === 'projects' ? (
           <ProjectManager
             projects={projects}
             tasks={projectTasks}
             onUpdateProjects={handleUpdateProjects}
             onUpdateTasks={handleUpdateProjectTasks}
+            dailyReports={dailyReports}
+            weeklyReports={weeklyReports}
+            onUpdateDailyReports={setDailyReports}
+            onUpdateWeeklyReports={setWeeklyReports}
           />
+        ) : (
+          <div className="p-8">
+            <div className="max-w-4xl mx-auto">
+              <h1 className="text-2xl font-bold mb-6">报告管理</h1>
+              <div className="text-center text-muted-foreground py-8">
+                <BarChart3 className="h-16 w-16 mx-auto mb-4" />
+                <p>请选择一个项目来管理日报和周报</p>
+                <p className="text-sm mt-2">切换到项目模块，选择一个项目后点击&apos;报告&apos;标签</p>
+              </div>
+            </div>
+          </div>
         )
       ) : (
         <div className="flex-1 flex items-center justify-center p-8">
@@ -279,6 +319,8 @@ export default function Home() {
         todoLists={todoLists}
         projects={projects}
         projectTasks={projectTasks}
+        dailyReports={dailyReports}
+        weeklyReports={weeklyReports}
       />
     </div>
   );

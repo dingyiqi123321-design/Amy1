@@ -6,7 +6,13 @@
       "Bash(npm run dev)",
       "Bash(npm run lint)",
       "Bash(node:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run build)",
+      "Bash(ipconfig)",
+      "Bash(pkill:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npx next:*)"
     ],
     "deny": [],
     "ask": []

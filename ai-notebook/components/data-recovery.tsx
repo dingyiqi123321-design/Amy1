@@ -22,6 +22,7 @@ export function DataRecovery({ onDataRestored }: DataRecoveryProps) {
       id: 'note-1',
       title: '我的第一篇笔记',
       content: '# 欢迎使用AI笔记本\n\n这是一个功能强大的笔记应用，支持：\n- Markdown编辑\n- AI问答\n- 待办事项管理\n\n开始记录你的想法吧！',
+      summary: '欢迎使用AI笔记本的说明文档',
       createdAt: new Date('2024-01-01').toISOString(),
       updatedAt: new Date('2024-01-01').toISOString()
     },
@@ -29,6 +30,7 @@ export function DataRecovery({ onDataRestored }: DataRecoveryProps) {
       id: 'note-2',
       title: '学习计划',
       content: '# 2024年学习计划\n\n## 技术学习\n- React 18新特性\n- TypeScript进阶\n- Node.js后端开发\n\n## 读书计划\n- 《代码整洁之道》\n- 《设计模式》\n- 《算法导论》',
+      summary: '2024年学习计划和读书清单',
       createdAt: new Date('2024-01-02').toISOString(),
       updatedAt: new Date('2024-01-02').toISOString()
     },
@@ -36,6 +38,7 @@ export function DataRecovery({ onDataRestored }: DataRecoveryProps) {
       id: 'note-3',
       title: '项目想法',
       content: '# 项目想法收集\n\n## Web应用\n1. 个人博客系统\n2. 在线代码编辑器\n3. 任务管理工具\n\n## 移动应用\n1. 习惯追踪器\n2. 记账应用\n3. 学习打卡应用',
+      summary: 'Web和移动应用项目想法收集',
       createdAt: new Date('2024-01-03').toISOString(),
       updatedAt: new Date('2024-01-03').toISOString()
     }

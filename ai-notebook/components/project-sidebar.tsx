@@ -111,7 +111,7 @@ export function ProjectSidebar({
         </div>
       )}
 
-      <div className="flex-1 overflow-auto space-y-2">
+      <div className="flex-1 overflow-y-auto space-y-2 max-h-[calc(100vh-200px)]">
         {projects.length === 0 ? (
           <div className="text-center text-muted-foreground py-8">
             <Folder className="h-12 w-12 mx-auto mb-2 opacity-50" />

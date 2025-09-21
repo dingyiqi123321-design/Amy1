@@ -130,8 +130,8 @@ export function ProjectTaskEditor({
             <Label htmlFor="priority">优先级</Label>
             <Select
               value={formData.priority}
-              onValueChange={(value: "high" | "medium" | "low") =>
-                setFormData({ ...formData, priority: value })
+              onValueChange={(value: string) =>
+                setFormData({ ...formData, priority: value as "high" | "medium" | "low" })
               }
             >
               <SelectTrigger>

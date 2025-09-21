@@ -80,8 +80,8 @@ export function AIChatModal({ open, onOpenChange, notes, todoLists }: AIChatModa
       const prompt = `基于以下所有笔记内容和待办事项信息回答问题：\n\n${context}\n\n用户问题：${input}`;
       
       const response = await callOpenRouter(prompt, 'chat');
-      
-      const aiMessage: Message = { role: 'assistant', content: response };
+
+      const aiMessage: Message = { role: 'assistant', content: typeof response === 'string' ? response : String(response) };
       setMessages(prev => [...prev, aiMessage]);
     } catch (error) {
       const errorMessage: Message = { 

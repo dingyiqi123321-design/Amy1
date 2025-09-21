@@ -14,11 +14,14 @@ import { Note } from "@/types/note";
 import { TodoList as TodoListType } from "@/types/todo";
 import { Project, ProjectTask } from "@/types/project";
 import { ProjectManager } from "@/components/project-manager";
+import { ReportsPage } from "@/components/reports-page";
 import { loadNotesFromLocalStorage, saveNotesToLocalStorage, getApiKey } from "@/lib/storage";
 import { loadTodosFromLocalStorage, saveTodosToLocalStorage, createTodoList } from "@/lib/todo-storage";
 import { loadProjectsFromLocalStorage, saveProjectsToLocalStorage, loadProjectTasksFromLocalStorage, saveProjectTasksToLocalStorage } from "@/lib/project-storage";
 import { callOpenRouter } from "@/lib/ai-service";
-import { MessageCircle, Settings, FileText, Briefcase } from "lucide-react";
+import { loadDailyReportsFromLocalStorage, saveDailyReportsToLocalStorage, loadWeeklyReportsFromLocalStorage, saveWeeklyReportsToLocalStorage } from "@/lib/report-storage";
+import { DailyReport, WeeklyReport } from "@/types/report";
+import { MessageCircle, Settings, FileText, Briefcase, BarChart3 } from "lucide-react";
 import { generateId } from "@/lib/utils";
 
 export default function Home() {
@@ -30,18 +33,24 @@ export default function Home() {
   const [showApiKeyDialog, setShowApiKeyDialog] = useState(false);
   const [showChatDialog, setShowChatDialog] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [activeModule, setActiveModule] = useState<'notes' | 'projects'>('notes');
+  const [dailyReports, setDailyReports] = useState<DailyReport[]>([]);
+  const [weeklyReports, setWeeklyReports] = useState<WeeklyReport[]>([]);
+  const [activeModule, setActiveModule] = useState<'notes' | 'projects' | 'reports'>('notes');
 
   useEffect(() => {
     const loadedNotes = loadNotesFromLocalStorage();
     const loadedTodos = loadTodosFromLocalStorage();
     const loadedProjects = loadProjectsFromLocalStorage();
     const loadedProjectTasks = loadProjectTasksFromLocalStorage();
-    
+    const loadedDailyReports = loadDailyReportsFromLocalStorage();
+    const loadedWeeklyReports = loadWeeklyReportsFromLocalStorage();
+
     setNotes(loadedNotes);
     setTodoLists(loadedTodos);
     setProjects(loadedProjects);
     setProjectTasks(loadedProjectTasks);
+    setDailyReports(loadedDailyReports);
+    setWeeklyReports(loadedWeeklyReports);
     
     if (loadedNotes.length > 0) {
       setSelectedId(loadedNotes[0].id);
@@ -68,6 +77,14 @@ export default function Home() {
   useEffect(() => {
     saveProjectTasksToLocalStorage(projectTasks);
   }, [projectTasks]);
+
+  useEffect(() => {
+    saveDailyReportsToLocalStorage(dailyReports);
+  }, [dailyReports]);
+
+  useEffect(() => {
+    saveWeeklyReportsToLocalStorage(weeklyReports);
+  }, [weeklyReports]);
 
   const createNote = () => {
     const newNote: Note = {
@@ -159,6 +176,14 @@ export default function Home() {
     setProjectTasks(updatedTasks);
   };
 
+  const handleUpdateDailyReports = (updatedReports: DailyReport[]) => {
+    setDailyReports(updatedReports);
+  };
+
+  const handleUpdateWeeklyReports = (updatedReports: WeeklyReport[]) => {
+    setWeeklyReports(updatedReports);
+  };
+
   const hasData = notes.length > 0 || todoLists.length > 0 || projects.length > 0;
 
   return (
@@ -185,6 +210,15 @@ export default function Home() {
             >
               <Briefcase className="h-4 w-4" />
               项目
+            </Button>
+            <Button
+              size="sm"
+              variant={activeModule === 'reports' ? 'default' : 'ghost'}
+              onClick={() => setActiveModule('reports')}
+              className="gap-2"
+            >
+              <BarChart3 className="h-4 w-4" />
+              报告
             </Button>
           </div>
 
@@ -253,6 +287,13 @@ export default function Home() {
               <PomodoroTimer className="h-full" />
             </ResizablePanel>
           </ResizablePanelGroup>
+        ) : activeModule === 'reports' ? (
+          <ReportsPage
+            dailyReports={dailyReports}
+            weeklyReports={weeklyReports}
+            onUpdateDailyReports={handleUpdateDailyReports}
+            onUpdateWeeklyReports={handleUpdateWeeklyReports}
+          />
         ) : (
           <ProjectManager
             projects={projects}
@@ -277,8 +318,6 @@ export default function Home() {
         onOpenChange={setShowChatDialog}
         notes={notes}
         todoLists={todoLists}
-        projects={projects}
-        projectTasks={projectTasks}
       />
     </div>
   );

@@ -114,7 +114,7 @@ export function ReportManager({
       <div className="grid grid-cols-2 gap-4 mb-6">
         <Card className="p-4">
           <div className="flex items-center gap-2">
-            <FileText className="h-4 w-4 text-blue-500" />
+            <FileText className="h-4 w-4 text-gray-600 dark:text-gray-400" />
             <div>
               <div className="text-sm text-muted-foreground">今日日报</div>
               <div className="text-lg font-semibold">

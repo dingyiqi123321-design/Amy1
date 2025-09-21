@@ -150,7 +150,7 @@ export function ReportsPage({
                   <p className="text-sm text-muted-foreground">总日报数</p>
                   <p className="text-2xl font-bold">{stats.totalDaily}</p>
                 </div>
-                <FileText className="h-8 w-8 text-blue-500" />
+                <FileText className="h-8 w-8 text-gray-700 dark:text-gray-300" />
               </div>
             </CardContent>
           </Card>
@@ -162,7 +162,7 @@ export function ReportsPage({
                   <p className="text-sm text-muted-foreground">总周报数</p>
                   <p className="text-2xl font-bold">{stats.totalWeekly}</p>
                 </div>
-                <Calendar className="h-8 w-8 text-green-500" />
+                <Calendar className="h-8 w-8 text-gray-700 dark:text-gray-300" />
               </div>
             </CardContent>
           </Card>

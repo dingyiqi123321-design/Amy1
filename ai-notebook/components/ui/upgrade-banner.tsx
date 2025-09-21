@@ -71,7 +71,7 @@ export function UpgradeBanner({
             variants={iconVariants}
             className="pointer-events-none absolute left-[4px] top-[2px]"
           >
-            <SettingsFilled className="text-[#005FF2] dark:text-[#006EFE]" />
+            <SettingsFilled className="text-gray-600 dark:text-gray-400" />
           </motion.div>
           <motion.div
             initial="hidden"
@@ -79,26 +79,26 @@ export function UpgradeBanner({
             variants={iconVariants}
             className="pointer-events-none absolute bottom-[2px] left-[6rem]"
           >
-            <SettingsFilled className="text-[#005FF2] dark:text-[#006EFE]" />
+            <SettingsFilled className="text-gray-600 dark:text-gray-400" />
           </motion.div>
-          <div className="relative flex h-[35px] items-center gap-1 rounded-[6px] border border-[#CBE7FF] bg-[#F0F7FF] pl-2.5 pr-1 text-sm dark:border-[#003674] dark:bg-[#06193A]">
+          <div className="relative flex h-[35px] items-center gap-1 rounded-[6px] border border-gray-300 bg-gray-50 pl-2.5 pr-1 text-sm dark:border-gray-600 dark:bg-gray-900">
             <button
-              className="focus-visible:shadow-focus-ring rounded-xs my-[-1px] cursor-pointer border-none bg-transparent px-0 py-1 font-sans text-[13px] font-medium text-[#002359] underline decoration-[#CAE7FF] underline-offset-[5px] outline-none hover:text-[#005FF2] hover:decoration-[#94CCFF] focus-visible:!shadow-[#008FFF] dark:text-[#EAF5FF] dark:decoration-[#003674] dark:hover:text-[#44A7FF] dark:hover:decoration-[#00408A]"
+              className="focus-visible:shadow-focus-ring rounded-xs my-[-1px] cursor-pointer border-none bg-transparent px-0 py-1 font-sans text-[13px] font-medium text-gray-900 underline decoration-gray-400 underline-offset-[5px] outline-none hover:text-gray-700 hover:decoration-gray-600 focus-visible:!shadow-gray-500 dark:text-gray-100 dark:decoration-gray-600 dark:hover:text-gray-300 dark:hover:decoration-gray-500"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
               onClick={onClick}
             >
               {buttonText}
             </button>
-            <span className="text-[0.8125rem] text-[#005FF2] dark:text-[#44A7FF]">
+            <span className="text-[0.8125rem] text-gray-600 dark:text-gray-400">
               {description}
             </span>
             {onClose && (
               <button
                 onClick={onClose}
-                className="m-0 flex h-6 !w-6 shrink-0 cursor-pointer items-center justify-center rounded-[4px] border-0 bg-transparent p-0 text-[#005FF2] hover:bg-[#CAE7FF] dark:hover:bg-[#012F61]"
+                className="m-0 flex h-6 !w-6 shrink-0 cursor-pointer items-center justify-center rounded-[4px] border-0 bg-transparent p-0 text-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700"
               >
-                <X size={16} className="text-[#005FF2] dark:text-[#44A7FF]" />
+                <X size={16} className="text-gray-600 dark:text-gray-400" />
               </button>
             )}
           </div>

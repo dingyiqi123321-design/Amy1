@@ -1,0 +1,7 @@
+{
+  "buildCommand": "cd ai-notebook && npm install && npm run build",
+  "outputDirectory": "ai-notebook/.next",
+  "installCommand": "cd ai-notebook && npm install",
+  "devCommand": "cd ai-notebook && npm run dev",
+  "framework": "nextjs"
+}

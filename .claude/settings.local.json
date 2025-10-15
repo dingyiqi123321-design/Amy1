@@ -22,7 +22,8 @@
       "Bash(npm install)",
       "Bash(netsh interface:*)",
       "Bash(ipconfig:*)",
-      "Bash(netsh:*)"
+      "Bash(netsh:*)",
+      "Bash(git pull:*)"
     ],
     "deny": [],
     "ask": []

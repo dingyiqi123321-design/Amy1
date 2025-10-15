@@ -16,7 +16,13 @@
       "Bash(git push:*)",
       "Bash(taskkill:*)",
       "Bash(tasklist:*)",
-      "Bash(netstat:*)"
+      "Bash(netstat:*)",
+      "Bash(npx shadcn-ui@latest add:*)",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(npm install)",
+      "Bash(netsh interface:*)",
+      "Bash(ipconfig:*)",
+      "Bash(netsh:*)"
     ],
     "deny": [],
     "ask": []

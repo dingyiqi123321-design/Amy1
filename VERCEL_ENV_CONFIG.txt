@@ -1,0 +1,46 @@
+# 🚀 Vercel 环境变量配置
+# 复制以下内容到Vercel的Environment Variables部分
+
+# ===========================================
+# 方案1：演示模式部署 (推荐快速部署)
+# ===========================================
+
+NODE_ENV=production
+NEXTAUTH_SECRET=ai-notebook-vercel-secret-please-change-this-to-strong-key
+NEXT_PUBLIC_APP_URL=https://your-app-name.vercel.app
+ENABLE_AI_FEATURES=true
+ENABLE_MULTI_USER=true
+ENABLE_DATA_EXPORT=true
+ENABLE_REALTIME_SYNC=true
+
+# ===========================================
+# 方案2：完整生产模式部署 (需要Supabase)
+# ===========================================
+
+NODE_ENV=production
+NEXTAUTH_SECRET=ai-notebook-vercel-secret-please-change-this-to-strong-key
+NEXT_PUBLIC_APP_URL=https://your-app-name.vercel.app
+
+# Supabase配置 (需要您的真实Supabase项目信息)
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url_here
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key_here
+
+# 功能开关
+ENABLE_AI_FEATURES=true
+ENABLE_MULTI_USER=true
+ENABLE_DATA_EXPORT=true
+ENABLE_REALTIME_SYNC=true
+
+# ===========================================
+# 配置说明
+# ===========================================
+
+# 1. 将上述变量逐个添加到Vercel的Environment Variables中
+# 2. 部署完成后，将 your-app-name.vercel.app 替换为实际的Vercel URL
+# 3. 强烈建议更改 NEXTAUTH_SECRET 为强密钥
+# 4. 如果选择方案2，需要填入真实的Supabase配置
+
+# 生成强密钥的方法：
+# - 访问 https://generate-secret.vercel.app/
+# - 或使用命令：openssl rand -base64 32
